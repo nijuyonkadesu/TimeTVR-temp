@@ -101,8 +101,11 @@ class MainActivity : ComponentActivity() {
 fun Navigation(
     viewModel: TimeTableViewModel = viewModel()
 ) {
-    
+    viewModel.logic() // compute what's next subject
+
     val navController = rememberNavController()
+    val uiState by viewModel.uiState.collectAsState()
+
     NavHost(navController = navController, startDestination = "splash_screen") {
         composable("splash_screen") {
             SplashScreen(navController = navController)
@@ -118,7 +121,7 @@ fun Navigation(
             arguments = listOf(
                 navArgument("infocode"){
                     type = NavType.IntType
-                    defaultValue = viewModel.logic().infoCode
+                    defaultValue = uiState.nextClassInfoCode
                 }
             )
         ) { entry ->
@@ -169,9 +172,7 @@ fun Main_Menu(
     navController: NavController,
     viewModel: TimeTableViewModel
 ) {
-    var classOrNot = viewModel.logic().subjectCode
-    var whatClass: String = viewModel.logic().title
-    var classCode = viewModel.logic().infoCode
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -179,9 +180,9 @@ fun Main_Menu(
             .padding(50.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        var havingNextClass = if (classOrNot == "") "" else "Your Next Academic Class is,"
-        var whatNextClassCode: String = if (classOrNot == "") "Relax, You have no other classes Today!" else classOrNot
-        var whatNextClass: String = if (classOrNot == "") "" else whatClass
+        val havingNextClass = if (uiState.nextClassCode == "") "" else "Your Next Academic Class is,"
+        val whatNextClassCode: String = if (uiState.nextClassCode == "") "Relax, You have no other classes Today!" else uiState.nextClassCode
+        val whatNextClass: String = if (uiState.nextClassCode == "") "" else uiState.nextClassTitle
         Text(
             text = havingNextClass,
             style = MaterialTheme.typography.h2,
@@ -202,9 +203,9 @@ fun Main_Menu(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            if(classCode != 0){
+            if(uiState.nextClassInfoCode != 0){
                 Button(onClick = {
-                    navController.navigate("info_screen/${viewModel.logic().infoCode}")
+                    navController.navigate("info_screen/${uiState.nextClassInfoCode}")
                 }) {
                     Text(text = "More Info", style = MaterialTheme.typography.h6)
                 }
@@ -282,7 +283,9 @@ fun ClassesItem(
                             text = subject.subjectCode,
                             style = MaterialTheme.typography.h5
                         )
-                        Row(modifier = Modifier.background(Color.Black).fillMaxWidth()) {
+                        Row(modifier = Modifier
+                            .background(Color.Black)
+                            .fillMaxWidth()) {
                             Text(
                                 modifier = Modifier.padding(8.dp),
                                 text = subject.title,
