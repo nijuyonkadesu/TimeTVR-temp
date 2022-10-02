@@ -22,13 +22,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.timetvr.model.TimeTableViewModel
 import com.example.timetvr.ui.theme.TimeTVRTheme
 import kotlinx.coroutines.delay
-import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : ComponentActivity() {
@@ -49,20 +50,23 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Navigation() {
+fun Navigation(
+    viewModel: TimeTableViewModel = viewModel()
+) {
+    
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "splash_screen") {
         composable("splash_screen") {
             SplashScreen(navController = navController)
         }
         composable("main_screen") {
-            Main_Menu(navController)
+            Main_Menu(navController, viewModel)
         }
         composable("classes_screen") {
-            Classes_Menu()
+            Classes_Menu(viewModel)
         }
         composable("info_screen") {
-            Info_Menu(secretCode = logic()[2].toInt())
+            Info_Menu(secretCode = viewModel.logic().infoCode)
         }
     }
 }
@@ -105,10 +109,13 @@ fun SplashScreen(navController: NavController) {
 
 
 @Composable
-fun Main_Menu(navController: NavController) {
-    var classOrNot = logic()[0]
-    var whatClass: String = logic()[1]
-    var classCode = logic()[2].toInt()
+fun Main_Menu(
+    navController: NavController,
+    viewModel: TimeTableViewModel
+) {
+    var classOrNot = viewModel.logic().subjectCode
+    var whatClass: String = viewModel.logic().title
+    var classCode = viewModel.logic().infoCode
 
     Column(
         modifier = Modifier
@@ -139,7 +146,7 @@ fun Main_Menu(navController: NavController) {
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            if(logic()[2].toInt() != 0){
+            if(classCode != 0){
                 Button(onClick = {
                     navController.navigate("info_screen")
                 }) {
@@ -157,8 +164,10 @@ fun Main_Menu(navController: NavController) {
 }
 
 @Composable
-fun Classes_Menu() {
-
+fun Classes_Menu(
+    viewModel: TimeTableViewModel
+) {
+// TODO: Make this list generated automatically using LazyColum (items) using 'subjects' from viewModel
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -416,148 +425,6 @@ fun Info_Menu(secretCode: Int) {
     }
 }
 
-fun logic(): List<String> {
-    val hours = SimpleDateFormat("HH", Locale.US)
-    val hour: Int = hours.format(Date()).toInt()
-    val minutes = SimpleDateFormat("mm", Locale.US)
-    val minute: Int = minutes.format(Date()).toInt()
-    val convertDateTo = SimpleDateFormat("EEEE", Locale.US)
-    val theDay: String = convertDateTo.format(Date())
-    val hourMinute: String = hours.format(Date())+":"+minutes.format(Date())
-    var hasClass = true
-    if (theDay == "Sunday" || theDay == "Saturday") {
-        hasClass = false
-        return listOf("", "Relax, You have no other classes Today!", "0")
-    }
-    else if (hour >= 14 || hour < 7){
-        hasClass = false
-        return listOf("", "Relax, You have no other classes Today!", "0")
-    }
-    else{
-        when (theDay) {
-            "Monday" -> {
-                if (hour == 7) {
-                    return listOf("OH18007", "English for Technologists", "5")
-                }
-                else if (hour == 8) {
-                    return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory", "6")
-                }
-                else if (hour == 9) {
-                    return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory", "6")
-                }
-                else if (hour == 10 ) {
-                    return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory", "6")
-                }
-                else if (hour == 11) {
-                    return listOf("NoCode", "SEMINAR - I", "9")
-                }
-                else if (hour == 12) {
-                    return listOf("AD18503", "Internet Of Things towards Data Science", "4")
-                }
-                else if (hour == 13) {
-                    return listOf("AD18502", "Digital Signal Processing for Data Science", "2")
-                }
-            }
-            "Tuesday" -> {
-                if (hour == 7) {
-                    return listOf("OH18007", "English for Technologists", "5")
-                }
-                else if (hour == 8) {
-                    return listOf("AD18502", "Digital Signal Processing for Data Science", "2")
-                    //return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory", 1)
-                }
-                else if (hour == 9) {
-                    return listOf("CS18502", "Data Mining and Data Warehousing", "3")
-                }
-                else if (hour == 10 ) {
-                    //return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory", 1)
-                    return listOf("AD18501", "Deep Learning Algorithms and Architectures", "1")
-                }
-                else if (hour == 11) {
-                    //return listOf("", "SEMINAR - I", 1)
-                    return listOf("AD18503", "Internet Of Things towards Data Science", "4")
-                }
-                else if (hour == 12) {
-                    //return listOf("AD18503", "Internet Of Things towards Data Science", 1)
-                    return listOf("CS18502", "Data Mining and Data Warehousing", "3")
-                }
-                else if (hour == 13) {
-                    return listOf("MC18001", "Indian Constitution and Society", "8")
-                }
-            }
-            "Wednesday" -> {
-                if (hour == 7) {
-                    return listOf("OH18007", "English for Technologists", "5")
-                }
-                else if (hour == 8) {
-                    return listOf("HS18561", "Interview and Career Skills Laboratory", "7")
-                }
-                else if (hour == 9) {
-                    return listOf("HS18561", "Interview and Career Skills Laboratory", "7")
-                }
-                else if (hour == 10 ) {
-                    return listOf("HS18561", "Interview and Career Skills Laboratory", "7")
-                }
-                else if (hour == 11) {
-                    return listOf("AD18502", "Digital Signal Processing for Data Science", "2")
-                }
-                else if (hour == 12) {
-                    return listOf("MC18001", "Indian Constitution and Society", "8")
-                }
-                else if (hour == 13) {
-                    return listOf("CS18502", "Data Mining and Data Warehousing", "3")
-                }
-            }
-            "Thursday" -> {
-                if (hour == 7) {
-                    return listOf("AD18502", "Digital Signal Processing for Data Science", "2")
-                }
-                else if (hour == 8) {
-                    return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory","6")
-                }
-                else if (hour == 9) {
-                    return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory", "6")
-                }
-                else if (hour == 10 ) {
-                    return listOf("AD18511/12", "DL Laboratory/ IoT Laboratory", "6")
-                }
-                else if (hour == 11) {
-                    return listOf("MC18001", "Indian Constitution and Society", "8")
-                }
-                else if (hour == 12) {
-                    return listOf("CS18502", "Data Mining and Data Warehousing", "3")
-                }
-                else if (hour == 13) {
-                    return listOf("AD18501", "Deep Learning Algorithms and Architectures", "1")
-                }
-            }
-            "Friday" -> {
-                if (hour == 7) {
-                    return listOf("AD18501", "Deep Learning Algorithms and Architectures", "1")
-                }
-                else if (hour == 8) {
-                    return listOf("AD18503", "Internet Of Things towards Data Science", "4")
-                }
-                else if (hour == 9) {
-                    return listOf("CS18502", "Data Mining and Data Warehousing", "3")
-                }
-                else if (hour == 10 ) {
-                    return listOf("AD18503", "Internet Of Things towards Data Science", "4")
-                }
-                else if (hour == 11) {
-                    return listOf("AD18502", "Digital Signal Processing for Data Science", "2")
-                }
-                else if (hour == 12) {
-                    return listOf("AD18501", "Deep Learning Algorithms and Architectures", "1")
-                }
-                else if (hour == 13) {
-                    return listOf("NoCode", "SEMINAR - II", "10")
-                }
-            }
-        }
-    }
-    return listOf("", "", "1")
-}
 
 @Preview(showBackground = true)
 @Composable
