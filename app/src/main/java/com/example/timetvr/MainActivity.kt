@@ -19,14 +19,18 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.timetvr.data.Subject
 import com.example.timetvr.data.SubjectDetails
 import com.example.timetvr.model.TimeTableViewModel
@@ -65,10 +69,18 @@ fun Navigation(
             Main_Menu(navController, viewModel)
         }
         composable("classes_screen") {
-            Classes_Menu(viewModel)
+            Classes_Menu(viewModel, navController)
         }
-        composable("info_screen") {
-            Info_Menu(secretCode = viewModel.logic().infoCode)
+        composable(
+            "info_screen/{infocode}",
+            arguments = listOf(
+                navArgument("infocode"){
+                    type = NavType.IntType
+                    defaultValue = viewModel.logic().infoCode
+                }
+            )
+        ) { entry ->
+            entry.arguments?.let { Info_Menu(secretCode = it.getInt("infocode")) }
         }
     }
 }
@@ -81,7 +93,7 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true) {
         scale.animateTo(
-            targetValue = 0.9f,
+            targetValue = 1.3f,
             animationSpec = tween(
                 durationMillis = 800,
                 easing = {
@@ -102,7 +114,7 @@ fun SplashScreen(navController: NavController) {
             .background(Color.Black)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.tt),
+            painter = painterResource(id = R.drawable.ns),
             contentDescription = "Logo",
             modifier = Modifier.scale(scale.value)
         )
@@ -150,7 +162,7 @@ fun Main_Menu(
         ) {
             if(classCode != 0){
                 Button(onClick = {
-                    navController.navigate("info_screen")
+                    navController.navigate("info_screen/${viewModel.logic().infoCode}")
                 }) {
                     Text(text = "More Info", style = MaterialTheme.typography.h3)
                 }
@@ -165,9 +177,11 @@ fun Main_Menu(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Classes_Menu(
-    viewModel: TimeTableViewModel
+    viewModel: TimeTableViewModel,
+    navController: NavController
 ) {
 // TODO: Make this list generated automatically using LazyColum (items) using 'subjects' from viewModel
     Column(
@@ -179,7 +193,13 @@ fun Classes_Menu(
     ) {
         Card(
             elevation = 8.dp,
-            modifier = Modifier.padding(15.dp)
+            modifier = Modifier.padding(15.dp),
+            backgroundColor = Color.White,
+            onClick = {
+                navController.navigate("info_screen/${1}"){
+                }
+
+            }
         ) {
             Column(
                 modifier = Modifier.padding(1.dp)
@@ -221,7 +241,12 @@ fun Classes_Menu(
         Card(
             elevation = 8.dp,
             modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White
+            backgroundColor = Color.White,
+            onClick = {
+                navController.navigate("info_screen/${2}"){
+                }
+
+            }
         ) {
             Column(
                 modifier = Modifier.padding(1.dp)
@@ -262,13 +287,19 @@ fun Classes_Menu(
         Spacer(modifier = Modifier.height(30.dp))
         Card(
             elevation = 8.dp,
-            modifier = Modifier.padding(15.dp)
+            backgroundColor = Color.White,
+            modifier = Modifier.padding(15.dp),
+            onClick = {
+                navController.navigate("info_screen/${3}"){
+                }
+
+            }
         ) {
             Column(
                 modifier = Modifier.padding(1.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.deeplearning2),
+                    painter = painterResource(id = R.drawable.datamining1),
                     contentDescription = "",
                     modifier = Modifier.height(150.dp),
                     contentScale = ContentScale.Crop
@@ -304,7 +335,12 @@ fun Classes_Menu(
         Card(
             elevation = 8.dp,
             modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White
+            backgroundColor = Color.White,
+            onClick = {
+                navController.navigate("info_screen/${4}"){
+                }
+
+            }
         ) {
             Column(
                 modifier = Modifier.padding(1.dp)
@@ -343,6 +379,194 @@ fun Classes_Menu(
 
         }
         Spacer(modifier = Modifier.height(30.dp))
+        Card(
+            elevation = 8.dp,
+            modifier = Modifier.padding(15.dp),
+            backgroundColor = Color.White,
+            onClick = {
+                navController.navigate("info_screen/${5}"){
+                }
+
+            }
+        ) {
+            Column(
+                modifier = Modifier.padding(1.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.english),
+                    contentDescription = "",
+                    modifier = Modifier.height(150.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(6f)
+
+                    ) {
+                        Text(
+                            text = "OH18007",
+                            style = MaterialTheme.typography.h5
+                        )
+                        Text(
+                            text = "English for Technologists",
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.h6
+                        )
+                    }
+
+                }
+
+            }
+
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+        Card(
+            elevation = 8.dp,
+            modifier = Modifier.padding(15.dp),
+            backgroundColor = Color.White,
+            onClick = {
+                navController.navigate("info_screen/${6}"){
+                }
+
+            }
+        ) {
+            Column(
+                modifier = Modifier.padding(1.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.deeplearning2),
+                    contentDescription = "",
+                    modifier = Modifier.height(150.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(6f)
+
+                    ) {
+                        Text(
+                            text = "AD18511/AD18512",
+                            style = MaterialTheme.typography.h5
+                        )
+                        Text(
+                            text = "Deep Learning/IoT Lab",
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.h6
+                        )
+                    }
+
+                }
+
+            }
+
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+        Card(
+            elevation = 8.dp,
+            modifier = Modifier.padding(15.dp),
+            backgroundColor = Color.White,
+            onClick = {
+                navController.navigate("info_screen/${7}"){
+                }
+
+            }
+        ) {
+            Column(
+                modifier = Modifier.padding(1.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.eng2),
+                    contentDescription = "",
+                    modifier = Modifier.height(150.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(6f)
+
+                    ) {
+                        Text(
+                            text = "HS18561",
+                            style = MaterialTheme.typography.h5
+                        )
+                        Text(
+                            text = "Interview and Career Skills Laboratory",
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.h6
+                        )
+                    }
+
+                }
+
+            }
+
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+        Card(
+            elevation = 8.dp,
+            modifier = Modifier.padding(15.dp),
+            backgroundColor = Color.White,
+            onClick = {
+                navController.navigate("info_screen/${8}"){
+                }
+
+            }
+        ) {
+            Column(
+                modifier = Modifier.padding(1.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ind),
+                    contentDescription = "",
+                    modifier = Modifier.height(150.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(6f)
+
+                    ) {
+                        Text(
+                            text = "MC18001",
+                            style = MaterialTheme.typography.h5
+                        )
+                        Text(
+                            text = "Indian Constitution and Society",
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.h6
+                        )
+                    }
+
+                }
+
+            }
+
+        }
+        Spacer(modifier = Modifier.height(30.dp))
 
     }
 }
@@ -362,15 +586,26 @@ fun Info_Menu(secretCode: Int) {
     ) {
         Text(
             text = moreInfo[secretCode]!![0],
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier.weight(3f),
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            text = "Credits:",
+            textDecoration = TextDecoration.Underline,
+            style = MaterialTheme.typography.h1,
+            modifier = Modifier.weight(1f)
         )
         Text(
             text = "This is a "+moreInfo[secretCode]!![1]+" Credit Subject.",
-            style = MaterialTheme.typography.h2
+            style = MaterialTheme.typography.h2,
+            modifier = Modifier.weight(1.5f)
         )
         Text(
             text = moreInfo[secretCode]!![2],
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier.weight(2f),
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

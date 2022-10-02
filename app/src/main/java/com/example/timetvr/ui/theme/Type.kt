@@ -35,7 +35,7 @@ val Typography = Typography(
     h3 = TextStyle(
         fontFamily = Montserrat,
         color = Color.White,
-        fontSize = 20.sp
+        fontSize = 18.sp
     ),
     h4 = TextStyle(
         fontFamily = Montserrat,
@@ -50,7 +50,7 @@ val Typography = Typography(
     h6 = TextStyle(
         fontFamily = Montserrat,
         color = Color.Black,
-        fontSize = 20.sp
+        fontSize = 18.sp
     )
 
     /* Other default text styles to override

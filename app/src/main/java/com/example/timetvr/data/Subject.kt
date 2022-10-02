@@ -15,7 +15,7 @@ class Semester() {
             Subject("CS18502", "Data Mining and Data Warehousing", 3),
             Subject("AD18503", "Internet Of Things towards Data Science", 4),
             Subject("OH18007", "English for Technologists", 5),
-            Subject("AD18511/12", "DL Laboratory/ IoT Laboratory",6),
+            Subject("AD18511/12", "DL/IoT Laboratory",6),
             Subject("HS18561", "Interview and Career Skills Laboratory", 7),
             Subject("MC18001", "Indian Constitution and Society", 8),
             Subject("NoCode", "SEMINAR - I", 9),
@@ -27,68 +27,27 @@ class Semester() {
 class SubjectDetails() {
     val moreInfo = mapOf(
         1 to listOf(
-            "The students are made to\n" +
-                "\uF0B7 Understand the basis of linear and softmax regression\n" +
-                "\uF0B7 Learn the notions of over fitting, under fitting and regularization techniques.\n" +
-                "\uF0B7 Design convolutional neural network\n" +
-                "\uF0B7 Handle sequential information\n" +
-                "\uF0B7 Study the transformation of an idea to concrete math model and make it work",
+            "Deep learning uses artificial neural networks to perform sophisticated computations on large amounts of data. It is a type of machine learning that works based on the structure and function of the human brain.",
             "3",
-            "Upon completion of the course, students will be able to\n" +
-                "\uF0B7 Train models for multi-category classification.\n" +
-                "\uF0B7 Train deep learning models and ensure the gradients are well controlled\n" +
-                "\uF0B7 Construct a complex CNN and tune various hyper parameters\n" +
-                "\uF0B7 Construct a sequential model which can capture the dependencies for time series data\n" +
-                "\uF0B7 Familiar with the encoder-decoder architecture\n"
+            "The students are expected to understand all concepts of Deep Learning and it's algorithms in detail."
         ),
 
         2 to listOf(
-            "The students will be made to :\n" +
-                "\uF06C Understand the basics of signals and systems\n" +
-                "\uF06C Gain an understanding of discrete time signals and systems\n" +
-                "\uF06C Understand the various probability distributions\n" +
-                "\uF06C Study how to build machine learning models using audio signals\n" +
-                "\uF06C Study deep learning model and architectures for computer vision",
+            "Digital signal processing is the use of digital processing, such as by computers or more specialized digital signal processors, to perform a wide variety of signal processing operations.",
             "4",
-            "At the end of the course, learners will be able to:\n" +
-                "\uF06C Use signals for modelling\n" +
-                "\uF06C Know various signal transformations\n" +
-                "\uF06C Appreciate necessity of various probability distributions\n" +
-                "\uF06C Design models that can process audio signals\n" +
-                "\uF06C Use existing architectures and create their own architectures for computer vision"
+            "The students are expected to understand all the concepts of Systems and Signals, and the transformation and processing of the same."
         ),
 
         3 to listOf(
-            "To understand data warehouse concepts, architecture, business analysis and tools\n" +
-                "\uF0B7 To understand data pre-processing and data visualization techniques\n" +
-                "\uF0B7 To study algorithms for finding hidden and interesting patterns in data\n" +
-                "\uF0B7 To understand and apply various classification and clustering techniques using tools.\n" +
-                "\uF0B7 Master data mining techniques in various applications like social, scientific and environmental\n" +
-                "context.",
+            "Data mining is the process of extracting and discovering patterns in large data sets involving methods at the intersection of machine learning, statistics, and database systems.",
             "4",
-            "Students will be able to understand data warehouse concepts, architecture, business analysis\n" +
-                "and tools.\n" +
-                "\uF0B7 Students will be able to understand data pre- processing and data visualization techniques\n" +
-                "\uF0B7 Students will be able to study algorithms for finding hidden and interesting patterns in data\n" +
-                "using association algorithms\n" +
-                "\uF0B7 Students will be able to apply various classification and clustering techniques using tools\n" +
-                "\uF0B7 Students will be mastering the data mining techniques in various applications like social,\n" +
-                "scientific and environmental context"
+            "The students are expected to understand all forms of editing and performing analysis on data. As a specific part of ML, the concepts go deep into the analysis."
         ),
 
         4 to listOf(
-            "To introduce the terminology, technology and its applications\n" +
-                "\uF06C To introduce the concept of M2M (machine to machine) with necessary protocols\n" +
-                "\uF06C To introduce the Python Scripting Language which is used in many IoT devices\n" +
-                "\uF06C To introduce the Raspberry PI platform, that is widely used in IoT applications.\n" +
-                "\uF06C To apply the concept of Internet of Things in the real world scenario\n",
+            "The Internet of things describes physical objects with sensors, processing ability, software, and other technologies that connect and exchange data with other devices and systems over the Internet or other communications networks. ",
             "3",
-            "Analyze various protocols for IoT.\n" +
-                "\uF0B7 Develop IoT application using scripting languages\n" +
-                "\uF0B7 Design a portable IoT using Raspberry Pi\n" +
-                "\uF0B7 Develop web services to access/control IoT devices.\n" +
-                "\uF0B7 Analyze applications of IoT in real time scenario" +
-                "scientific and environmental context"
+            "The students are expected to understand the workings of whatever they've learnt, actually implemented in projects as such. There's also a laboratory for the same."
         ),
         5 to listOf(
             "This course will let the students understand the importance of English towards Technology.",
@@ -109,18 +68,18 @@ class SubjectDetails() {
         ),
 
         8 to listOf(
-            "This lab will let the students understand the importance of English towards Technology.",
-            "2", "Students, by the end of this course will be ABLE to use their technical knowledge and learn corporate-English skills."
+            "This course will help understand the cause of the Indian Society and what happens everywhere.",
+            "2", "Students, by the end of this course will be understanding the legislature, and have certain knowledge to be a model Indian."
         ),
 
         9 to listOf(
-            "This lab will let the students understand the importance of English towards Technology.",
-            "2", "Students, by the end of this course will be ABLE to use their technical knowledge and learn corporate-English skills."
+            "Grow your communication and speaking skills, by giving a Seminar! Try your best to represent yourself to the people!",
+            "-", "Students, by the end of this course will be ABLE to use their technical knowledge and learn corporate-English skills."
         ),
 
         10 to listOf(
-            "This lab will let the students understand the importance of English towards Technology.",
-            "2", "Students, by the end of this course will be ABLE to use their technical knowledge and learn corporate-English skills."
+            "Grow your communication and speaking skills, by giving a Seminar! Try your best to represent yourself to the people!",
+            "-", "Students, by the end of this course will be ABLE to use their technical knowledge and learn corporate-English skills."
         ),
     )
 }
