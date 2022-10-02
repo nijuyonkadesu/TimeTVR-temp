@@ -1,29 +1,34 @@
 package com.example.timetvr
 
+import android.os.Build
 import android.os.Bundle
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,7 +45,41 @@ import com.example.timetvr.ui.theme.TimeTVRTheme
 import kotlinx.coroutines.delay
 import java.util.*
 
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Modifier.drawColoredShadow(
+    color: Color,
+    alpha: Float = 0.2f,
+    borderRadius: Dp = 0.dp,
+    shadowRadius: Dp = 20.dp,
+    offsetY: Dp = 0.dp,
+    offsetX: Dp = 0.dp
+) = this.drawBehind {
+    val transparentColor = android.graphics.Color.toArgb(color.copy(alpha = 0.0f).value.toLong())
+    val shadowColor = android.graphics.Color.toArgb(color.copy(alpha = alpha).value.toLong())
+    this.drawIntoCanvas {
+        val paint = Paint()
+        val frameworkPaint = paint.asFrameworkPaint()
+        frameworkPaint.color = transparentColor
+        frameworkPaint.setShadowLayer(
+            shadowRadius.toPx(),
+            offsetX.toPx(),
+            offsetY.toPx(),
+            shadowColor
+        )
+        it.drawRoundRect(
+            0f,
+            0f,
+            this.size.width,
+            this.size.height,
+            borderRadius.toPx(),
+            borderRadius.toPx(),
+            paint
+        )
+    }
+}
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -57,6 +96,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation(
     viewModel: TimeTableViewModel = viewModel()
@@ -166,24 +206,30 @@ fun Main_Menu(
                 Button(onClick = {
                     navController.navigate("info_screen/${viewModel.logic().infoCode}")
                 }) {
-                    Text(text = "More Info", style = MaterialTheme.typography.h3)
+                    Text(text = "More Info", style = MaterialTheme.typography.h6)
                 }
             }
 
             Button(onClick = {
                 navController.navigate("classes_screen")
             }) {
-                Text(text = "Classes", style = MaterialTheme.typography.h3)
+                Text(text = "Classes", style = MaterialTheme.typography.h6)
             }
         }
     }
 }
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Classes_Menu(
     viewModel: TimeTableViewModel,
     navController: NavController
 ){
-    LazyColumn(){
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.Black)
+            .padding(20.dp)
+    ){
         items(viewModel.subjects){
             if(it.imgId != 0){
                 ClassesItem(it, navController = navController)
@@ -191,6 +237,7 @@ fun Classes_Menu(
         }
     }
 }
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ClassesItem(
@@ -200,8 +247,12 @@ fun ClassesItem(
     Column {
         Card(
             elevation = 8.dp,
-            modifier = Modifier.padding(15.dp),
+            modifier = Modifier
+                .padding(15.dp)
+                .drawColoredShadow(Color.White, 0.9f, 5.dp),
+            border = BorderStroke(1.dp, Color.White),
             backgroundColor = Color.White,
+            contentColor = Color.Black,
             onClick = {
                 navController.navigate("info_screen/${subject.infoCode}") {  }
             }
@@ -219,7 +270,7 @@ fun ClassesItem(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+
                 ) {
                     Column(
                         modifier = Modifier
@@ -227,14 +278,18 @@ fun ClassesItem(
 
                     ) {
                         Text(
+                            modifier = Modifier.padding(8.dp),
                             text = subject.subjectCode,
                             style = MaterialTheme.typography.h5
                         )
-                        Text(
-                            text = subject.title,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
+                        Row(modifier = Modifier.background(Color.Black).fillMaxWidth()) {
+                            Text(
+                                modifier = Modifier.padding(8.dp),
+                                text = subject.title,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.h3
+                            )
+                        }
                     }
 
                 }
