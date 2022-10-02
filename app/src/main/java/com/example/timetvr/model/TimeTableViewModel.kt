@@ -14,7 +14,7 @@ class TimeTableMaker(){
         "Thursday" to listOf(2,6,6,6,8,3,1),
         "Friday" to listOf(1,4,3,4,4,2,1),
     )
-} // TODO: Have to think how to use this to generate timetable automatically, 7 a day..
+} // TODO: Make time checking logic better
 
 class TimeTableViewModel: ViewModel() {
     // list of all subjects for AI & DS - < Semester 5 >
