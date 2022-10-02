@@ -18,7 +18,7 @@ class TimeTableMaker(){
 
 class TimeTableViewModel: ViewModel() {
     // list of all subjects for AI & DS - < Semester 5 >
-    private val subjects = Semester().loadSubjects()
+    val subjects = Semester().loadSubjects()
     private val timeTable = TimeTableMaker().subjectsInThisDay
 
     fun logic(): Subject {
@@ -68,7 +68,7 @@ class TimeTableViewModel: ViewModel() {
                 }
             }
         }
-        return Subject("", "", 1) // TODO: make meaningful
+        return Subject("", "", 1, 0) // TODO: make meaningful
     }
 
 }

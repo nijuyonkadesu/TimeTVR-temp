@@ -9,6 +9,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -176,36 +178,39 @@ fun Main_Menu(
         }
     }
 }
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Classes_Menu(
     viewModel: TimeTableViewModel,
     navController: NavController
-) {
-// TODO: Make this list generated automatically using LazyColum (items) using 'subjects' from viewModel
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.LightGray)
-            .padding(20.dp)
-            .verticalScroll(rememberScrollState()),
-    ) {
+){
+    LazyColumn(){
+        items(viewModel.subjects){
+            if(it.imgId != 0){
+                ClassesItem(it, navController = navController)
+            }
+        }
+    }
+}
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ClassesItem(
+    subject: Subject,
+    navController: NavController
+){
+    Column {
         Card(
             elevation = 8.dp,
             modifier = Modifier.padding(15.dp),
             backgroundColor = Color.White,
             onClick = {
-                navController.navigate("info_screen/${1}"){
-                }
-
+                navController.navigate("info_screen/${subject.infoCode}") {  }
             }
         ) {
             Column(
                 modifier = Modifier.padding(1.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.deeplearning1),
+                    painter = painterResource(id = subject.imgId),
                     contentDescription = "",
                     modifier = Modifier.height(150.dp),
                     contentScale = ContentScale.Crop
@@ -222,11 +227,11 @@ fun Classes_Menu(
 
                     ) {
                         Text(
-                            text = "AD18501",
+                            text = subject.subjectCode,
                             style = MaterialTheme.typography.h5
                         )
                         Text(
-                            text = "Deep Learning Algorithms and Architectures",
+                            text = subject.title,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.h6
                         )
@@ -238,336 +243,6 @@ fun Classes_Menu(
 
         }
         Spacer(modifier = Modifier.height(30.dp))
-        Card(
-            elevation = 8.dp,
-            modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White,
-            onClick = {
-                navController.navigate("info_screen/${2}"){
-                }
-
-            }
-        ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.dsp),
-                    contentDescription = "",
-                    modifier = Modifier.height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
-                        Text(
-                            text = "AD18502",
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "Digital Signal Processing for Data Science",
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-
-                }
-
-            }
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(
-            elevation = 8.dp,
-            backgroundColor = Color.White,
-            modifier = Modifier.padding(15.dp),
-            onClick = {
-                navController.navigate("info_screen/${3}"){
-                }
-
-            }
-        ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.datamining1),
-                    contentDescription = "",
-                    modifier = Modifier.height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
-                        Text(
-                            text = "CS18502",
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "Datamining and Data warehousing",
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-
-                }
-
-            }
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(
-            elevation = 8.dp,
-            modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White,
-            onClick = {
-                navController.navigate("info_screen/${4}"){
-                }
-
-            }
-        ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.iot1),
-                    contentDescription = "",
-                    modifier = Modifier.height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
-                        Text(
-                            text = "AD18503",
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "Internet Of Things towards Data Science ",
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-
-                }
-
-            }
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(
-            elevation = 8.dp,
-            modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White,
-            onClick = {
-                navController.navigate("info_screen/${5}"){
-                }
-
-            }
-        ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.english),
-                    contentDescription = "",
-                    modifier = Modifier.height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
-                        Text(
-                            text = "OH18007",
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "English for Technologists",
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-
-                }
-
-            }
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(
-            elevation = 8.dp,
-            modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White,
-            onClick = {
-                navController.navigate("info_screen/${6}"){
-                }
-
-            }
-        ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.deeplearning2),
-                    contentDescription = "",
-                    modifier = Modifier.height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
-                        Text(
-                            text = "AD18511/AD18512",
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "Deep Learning/IoT Lab",
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-
-                }
-
-            }
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(
-            elevation = 8.dp,
-            modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White,
-            onClick = {
-                navController.navigate("info_screen/${7}"){
-                }
-
-            }
-        ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.eng2),
-                    contentDescription = "",
-                    modifier = Modifier.height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
-                        Text(
-                            text = "HS18561",
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "Interview and Career Skills Laboratory",
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-
-                }
-
-            }
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(
-            elevation = 8.dp,
-            modifier = Modifier.padding(15.dp),
-            backgroundColor = Color.White,
-            onClick = {
-                navController.navigate("info_screen/${8}"){
-                }
-
-            }
-        ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ind),
-                    contentDescription = "",
-                    modifier = Modifier.height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
-                        Text(
-                            text = "MC18001",
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "Indian Constitution and Society",
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-
-                }
-
-            }
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-
     }
 }
 
