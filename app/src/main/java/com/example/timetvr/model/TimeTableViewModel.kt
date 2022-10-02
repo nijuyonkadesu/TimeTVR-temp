@@ -84,5 +84,7 @@ class TimeTableViewModel: ViewModel() {
             nextImgId = subject.imgId
         )
     }
-
+    init { // runs whenever viewModel is made for the first time, initialization
+        logic()
+    }
 }

@@ -18,19 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -43,7 +42,6 @@ import com.example.timetvr.data.SubjectDetails
 import com.example.timetvr.model.TimeTableViewModel
 import com.example.timetvr.ui.theme.TimeTVRTheme
 import kotlinx.coroutines.delay
-import java.util.*
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -101,8 +99,6 @@ class MainActivity : ComponentActivity() {
 fun Navigation(
     viewModel: TimeTableViewModel = viewModel()
 ) {
-    viewModel.logic() // compute what's next subject
-
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsState()
 
@@ -173,7 +169,13 @@ fun Main_Menu(
     viewModel: TimeTableViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
+    OnLifecycleEvent { owner, event ->
+        // do stuff on event
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> { viewModel.logic() }
+            else                      -> { /* other stuff */ }
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -348,5 +350,24 @@ fun Info_Menu(secretCode: Int) {
 @Composable
 fun DefaultPreview() {
     TimeTVRTheme {
+    }
+}
+// Refresh screen onResume Lifecycle call
+// Reference : https://stackoverflow.com/questions/66546962/jetpack-compose-how-do-i-refresh-a-screen-when-app-returns-to-foreground
+@Composable
+fun OnLifecycleEvent(onEvent: (owner: LifecycleOwner, event: Lifecycle.Event) -> Unit) {
+    val eventHandler = rememberUpdatedState(onEvent)
+    val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
+
+    DisposableEffect(lifecycleOwner.value) {
+        val lifecycle = lifecycleOwner.value.lifecycle
+        val observer = LifecycleEventObserver { owner, event ->
+            eventHandler.value(owner, event)
+        }
+
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
+        }
     }
 }
