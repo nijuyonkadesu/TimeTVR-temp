@@ -24,7 +24,6 @@ class TimeTableMaker(){
 class TimeTableViewModel: ViewModel() {
     // list of all subjects for AI & DS - < Semester 5 >
     val subjects = Semester().loadSubjects()
-    val cardSubjects = Semester().loadCardSubjects()
     lateinit var subject: Subject
     private val timeTable = TimeTableMaker().subjectsInThisDay
 

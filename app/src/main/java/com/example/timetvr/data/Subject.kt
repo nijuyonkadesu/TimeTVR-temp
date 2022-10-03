@@ -26,18 +26,6 @@ class Semester() {
             Subject("NoCode", "SEMINAR - II", 10, 0),
         )
     }
-    fun loadCardSubjects(): List<Subject>{
-        return listOf(
-            Subject("AD18501", "Deep Learning Algorithms and Architectures", 1, R.drawable.deeplearning1),
-            Subject("AD18502", "Digital Signal Processing for Data Science", 2, R.drawable.dsp),
-            Subject("CS18502", "Data Mining and Data Warehousing", 3, R.drawable.datamining1),
-            Subject("AD18503", "Internet Of Things towards Data Science", 4, R.drawable.iot1),
-            Subject("OH18007", "English for Technologists", 5, R.drawable.english),
-            Subject("AD18511/12", "DL/IoT Laboratory",6, R.drawable.deeplearning2),
-            Subject("HS18561", "Interview and Career Skills Laboratory", 7, R.drawable.eng2),
-            Subject("MC18001", "Indian Constitution and Society", 8, R.drawable.ind),
-        )
-    }
 }
 
 class SubjectDetails() {

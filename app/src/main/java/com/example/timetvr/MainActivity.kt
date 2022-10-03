@@ -228,7 +228,7 @@ fun Classes_Menu(
     viewModel: TimeTableViewModel,
     navController: NavController
 ){
-    val show = viewModel.cardSubjects
+    val show = viewModel.subjects.filter { it.imgId != 0 }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
