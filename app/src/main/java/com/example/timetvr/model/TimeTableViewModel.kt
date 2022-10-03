@@ -23,6 +23,7 @@ class TimeTableMaker(){
 class TimeTableViewModel: ViewModel() {
     // list of all subjects for AI & DS - < Semester 5 >
     val subjects = Semester().loadSubjects()
+    val cardSubjects = Semester().loadCardSubjects()
     lateinit var subject: Subject
     private val timeTable = TimeTableMaker().subjectsInThisDay
 
@@ -33,22 +34,16 @@ class TimeTableViewModel: ViewModel() {
         val hours = SimpleDateFormat("HH", Locale.US)
         val hour: Int = hours.format(Date()).toInt()
 
-        val minutes = SimpleDateFormat("mm", Locale.US)
-        val minute: Int = minutes.format(Date()).toInt()
 
-        val hourMinute: String = hours.format(Date())+":"+minutes.format(Date())
 
         val convertDateTo = SimpleDateFormat("EEEE", Locale.US)
         val theDay: String = convertDateTo.format(Date())
 
-        var hasClass = true
 
         if (theDay == "Sunday" || theDay == "Saturday") {
-            hasClass = false
             subject = subjects[0]
         }
         else if (hour >= 14 || hour < 7){
-            hasClass = false
             subject = subjects[0]
         }
         else {

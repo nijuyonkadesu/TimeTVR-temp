@@ -221,22 +221,22 @@ fun Main_Menu(
         }
     }
 }
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Classes_Menu(
     viewModel: TimeTableViewModel,
     navController: NavController
 ){
+    val show = viewModel.cardSubjects
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.Black)
             .padding(20.dp)
     ){
-        items(viewModel.subjects){
-            if(it.imgId != 0){
-                ClassesItem(it, navController = navController)
-            }
+        items(show){
+            ClassesItem(it, navController = navController)
         }
     }
 }
@@ -260,9 +260,7 @@ fun ClassesItem(
                 navController.navigate("info_screen/${subject.infoCode}") {  }
             }
         ) {
-            Column(
-                modifier = Modifier.padding(1.dp)
-            ) {
+            Column() {
                 Image(
                     painter = painterResource(id = subject.imgId),
                     contentDescription = "",
@@ -270,31 +268,25 @@ fun ClassesItem(
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
 
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
+                    Text(
+                        modifier = Modifier.padding(8.dp),
+                        text = subject.subjectCode,
+                        style = MaterialTheme.typography.h5
+                    )
+                    Row(modifier = Modifier
+                        .background(Color.Black)
+                        .fillMaxWidth()) {
                         Text(
                             modifier = Modifier.padding(8.dp),
-                            text = subject.subjectCode,
-                            style = MaterialTheme.typography.h5
+                            text = subject.title,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.h3
                         )
-                        Row(modifier = Modifier
-                            .background(Color.Black)
-                            .fillMaxWidth()) {
-                            Text(
-                                modifier = Modifier.padding(8.dp),
-                                text = subject.title,
-                                overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.h3
-                            )
-                        }
                     }
 
                 }
