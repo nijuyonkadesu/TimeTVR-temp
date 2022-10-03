@@ -1,5 +1,6 @@
 package com.example.timetvr.model
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.timetvr.data.Semester
 import com.example.timetvr.data.Subject
@@ -30,11 +31,21 @@ class TimeTableViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow() // Exposing data to UI, & read-only
 
+    fun valDate(d1: String, d2: String, cd: String): Boolean{
+        val sdf = SimpleDateFormat("HH:mm")
+        val firstDate: Date = sdf.parse(d1)
+        val currentDate: Date = sdf.parse(cd)
+        val secondDate: Date = sdf.parse(d2)
+        if(currentDate in firstDate..secondDate){
+            return true
+        }
+        return false
+    }
     fun logic() {
         val hours = SimpleDateFormat("HH", Locale.US)
         val hour: Int = hours.format(Date()).toInt()
-
-
+        val hoursMinutes = SimpleDateFormat("HH:mm", Locale.US)
+        val hourMinute: String = hoursMinutes.format(Date()).toString()
 
         val convertDateTo = SimpleDateFormat("EEEE", Locale.US)
         val theDay: String = convertDateTo.format(Date())
@@ -47,26 +58,26 @@ class TimeTableViewModel: ViewModel() {
             subject = subjects[0]
         }
         else {
-            subject = when (hour) {
-                7 -> {
+            subject = when {
+                hour == 7 -> {
                     subjects[timeTable[theDay]!![0]]
                 }
-                8 -> {
+                valDate("08:30", "09:20", hourMinute) -> {
                     subjects[timeTable[theDay]!![1]]
                 }
-                9 -> {
+                valDate("09:21", "10:25", hourMinute) -> {
                     subjects[timeTable[theDay]!![2]]
                 }
-                10 -> {
+                valDate("10:26", "11:15", hourMinute) -> {
                     subjects[timeTable[theDay]!![3]]
                 }
-                11 -> {
+                valDate("11:16", "12:45", hourMinute) -> {
                     subjects[timeTable[theDay]!![4]]
                 }
-                12 -> {
+                valDate("12:46", "13:35", hourMinute) -> {
                     subjects[timeTable[theDay]!![5]]
                 }
-                13 -> {
+                valDate("13:36", "14:25", hourMinute) -> {
                     subjects[timeTable[theDay]!![6]]
                 }
                 else -> Subject("", "", 1, 0)
