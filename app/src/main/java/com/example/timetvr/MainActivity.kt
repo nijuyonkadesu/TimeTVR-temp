@@ -227,17 +227,17 @@ fun Classes_Menu(
     viewModel: TimeTableViewModel,
     navController: NavController
 ){
+    val show = viewModel.cardSubjects
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.Black)
             .padding(20.dp)
     ){
-        items(viewModel.subjects){
-            if(it.imgId != 0){
-                ClassesItem(it, navController = navController)
-            }
+        items(show){
+            ClassesItem(it, navController = navController)
         }
+
     }
 }
 @RequiresApi(Build.VERSION_CODES.O)
@@ -270,31 +270,25 @@ fun ClassesItem(
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
 
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-
-                    ) {
+                    Text(
+                        modifier = Modifier.padding(8.dp),
+                        text = subject.subjectCode,
+                        style = MaterialTheme.typography.h5
+                    )
+                    Row(modifier = Modifier
+                        .background(Color.Black)
+                        .fillMaxWidth()) {
                         Text(
                             modifier = Modifier.padding(8.dp),
-                            text = subject.subjectCode,
-                            style = MaterialTheme.typography.h5
+                            text = subject.title,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.h3
                         )
-                        Row(modifier = Modifier
-                            .background(Color.Black)
-                            .fillMaxWidth()) {
-                            Text(
-                                modifier = Modifier.padding(8.dp),
-                                text = subject.title,
-                                overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.h3
-                            )
-                        }
                     }
 
                 }
@@ -308,10 +302,7 @@ fun ClassesItem(
 
 @Composable
 fun Info_Menu(secretCode: Int) {
-    var objectives = ""
-    var credits = 0
-    var outcomes = ""
-    var moreInfo = SubjectDetails().moreInfo
+    val moreInfo = SubjectDetails().moreInfo
 
     Column(
         modifier = Modifier
