@@ -1,6 +1,5 @@
 package com.example.timetvr.model
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.timetvr.data.Semester
 import com.example.timetvr.data.Subject
@@ -30,11 +29,13 @@ class TimeTableViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow() // Exposing data to UI, & read-only
 
-    fun valDate(d1: String, d2: String, cd: String): Boolean{
-        val sdf = SimpleDateFormat("HH:mm")
-        val firstDate: Date = sdf.parse(d1)
-        val currentDate: Date = sdf.parse(cd)
-        val secondDate: Date = sdf.parse(d2)
+    private fun valDate(d1: String, d2: String, cd: String): Boolean{
+        val sdf = SimpleDateFormat("HH:mm", Locale.US)
+
+        val firstDate = sdf.parse(d1) as Date
+        val currentDate = sdf.parse(cd) as Date
+        val secondDate = sdf.parse(d2) as Date
+
         if(currentDate in firstDate..secondDate){
             return true
         }
@@ -43,6 +44,7 @@ class TimeTableViewModel: ViewModel() {
     fun logic() {
         val hours = SimpleDateFormat("HH", Locale.US)
         val hour: Int = hours.format(Date()).toInt()
+
         val hoursMinutes = SimpleDateFormat("HH:mm", Locale.US)
         val hourMinute: String = hoursMinutes.format(Date()).toString()
 

@@ -142,7 +142,7 @@ fun SplashScreen(navController: NavController) {
                 }
             )
         )
-        delay(5000L)
+        delay(1000L)
         navController.navigate("main_screen") {
             popUpTo(0)
         }
@@ -300,10 +300,7 @@ fun ClassesItem(
 
 @Composable
 fun Info_Menu(secretCode: Int) {
-    var objectives = ""
-    var credits = 0
-    var outcomes = ""
-    var moreInfo = SubjectDetails().moreInfo
+    val moreInfo = SubjectDetails().moreInfo
 
     Column(
         modifier = Modifier
@@ -324,7 +321,7 @@ fun Info_Menu(secretCode: Int) {
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = "This is a "+moreInfo[secretCode]!![1]+" Credit Subject.",
+            text = "This is a ${moreInfo[secretCode]!![1]} Credit Subject.",
             style = MaterialTheme.typography.h2,
             modifier = Modifier.weight(1.5f)
         )
