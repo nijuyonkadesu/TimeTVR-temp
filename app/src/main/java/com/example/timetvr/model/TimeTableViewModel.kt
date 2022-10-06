@@ -12,16 +12,16 @@ import java.util.*
 
 class TimeTableMaker(){
     val subjectsInThisDay = mapOf(
-        "Monday" to listOf(5,6,6,6,9,4,2),
-        "Tuesday" to listOf(5,2,3,1,4,3,8),
-        "Wednesday" to listOf(5,7,7,7,2,8,3),
-        "Thursday" to listOf(2,6,6,6,8,3,1),
-        "Friday" to listOf(1,4,3,4,4,2,1),
+        "Monday" to listOf(5,2,1,4,7),
+        "Tuesday" to listOf(5,6,1,3,8),
+        "Wednesday" to listOf(5,3,2,4,6,9),
+        "Thursday" to listOf(2,1,3,4,2,1,3),
+        "Friday" to listOf(5,8,3,4,2),
     )
-} // TODO: Make time checking logic better
+}
 
 class TimeTableViewModel: ViewModel() {
-    // list of all subjects for AI & DS - < Semester 5 >
+    // list of all subjects for IT - < Semester 5 >
     val subjects = Semester().loadSubjects()
     lateinit var subject: Subject
     private val timeTable = TimeTableMaker().subjectsInThisDay
