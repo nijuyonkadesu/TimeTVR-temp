@@ -12,11 +12,11 @@ import java.util.*
 
 class TimeTableMaker(){
     val subjectsInThisDay = mapOf(
-        "Monday" to listOf(5,2,1,4,7),
-        "Tuesday" to listOf(5,6,1,3,8),
-        "Wednesday" to listOf(5,3,2,4,6,9),
+        "Monday" to listOf(5,2,1,4,7,7,7),
+        "Tuesday" to listOf(5,6,1,3,8,8,8),
+        "Wednesday" to listOf(5,3,2,4,6,9,9),
         "Thursday" to listOf(2,1,3,4,2,1,3),
-        "Friday" to listOf(5,8,3,4,2),
+        "Friday" to listOf(5,8,8,8,3,4,2),
     )
 }
 
